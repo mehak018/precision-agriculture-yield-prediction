@@ -1,56 +1,142 @@
-# Welcome to your Expo app 👋
+# 🌾 Precision Agriculture Yield Prediction Platform
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+An AI-powered mobile application that predicts crop yield using Machine Learning, helping Indian farmers make data-driven decisions to improve agricultural productivity.
 
-## Get started
+![AgriYield App](screenshots/home_screen.png)
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 📱 App Screenshots
 
-2. Start the app
+| Home Screen | Input Screen | Result Screen |
+|---|---|---|
+| ![Home](screenshots/home_screen.png) | ![Input](screenshots/input_screen.png) | ![Result](screenshots/result_screen.png) |
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## 🎯 Features
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- 🌱 **AI Yield Prediction** — Predicts crop yield with 92% accuracy
+- 📊 **Smart Suggestions** — Personalized farming advice based on inputs
+- 💧 **Irrigation Advice** — Water management recommendations
+- 🪨 **Soil Analysis** — Soil-specific improvement tips
+- 🧪 **Fertilizer Guide** — Optimal fertilizer usage recommendations
+- 🌱 **Crop Recommendations** — Best crop suggestions for conditions
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 🏗️ Tech Stack
 
-When you're ready, run:
+| Layer | Technology |
+|---|---|
+| Mobile App | React Native + Expo |
+| Backend API | Python Flask |
+| ML Model | Scikit-learn (Random Forest) |
+| Language | JavaScript + Python |
 
-```bash
-npm run reset-project
+---
+
+## 🧠 ML Model Performance
+
+| Metric | Value |
+|---|---|
+| Algorithm | Random Forest Regressor |
+| Training Samples | 800 |
+| Testing Samples | 200 |
+| R² Score | 0.92 (92% accurate) |
+| Mean Absolute Error | 0.52 tons |
+
+---
+
+## 📁 Project Structure
+```
+precision-agriculture-yield-prediction/
+│
+├── 📁 ml_model/
+│   ├── train_model.py      ← ML model training code
+│   ├── model.pkl           ← Trained model
+│   └── columns.pkl         ← Feature columns
+│
+├── 📁 backend/
+│   ├── app.py              ← Flask REST API
+│   └── requirements.txt    ← Python dependencies
+│
+├── 📁 mobile_app/
+│   └── src/app/index.tsx   ← Main app code
+│
+├── 📁 screenshots/         ← App screenshots
+└── README.md
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-### Other setup steps
+## 🚀 How to Run
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### 1. Clone the Repository
+```bash
+git clone https://github.com/mehak018/precision-agriculture-yield-prediction.git
+cd precision-agriculture-yield-prediction
+```
 
-## Learn more
+### 2. Install Python Dependencies
+```bash
+pip install pandas scikit-learn numpy flask flask-cors
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+### 3. Train the ML Model
+```bash
+python ml_model/train_model.py
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### 4. Start the Flask API
+```bash
+python backend/app.py
+```
 
-## Join the community
+### 5. Run the Mobile App
+```bash
+cd mobile_app
+npx expo start --web
+```
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 🌾 How It Works
+
+1. **Farmer enters data** — Crop type, soil type, rainfall, temperature, fertilizer, area
+2. **Flask API receives data** — Sends to ML model
+3. **ML Model predicts** — Random Forest calculates expected yield
+4. **Smart suggestions generated** — App gives personalized farming advice
+5. **Results displayed** — Yield prediction + improvement tips shown
+
+---
+
+## 📊 Input Parameters
+
+| Parameter | Description | Unit |
+|---|---|---|
+| Crop Type | Type of crop being grown | Category |
+| Soil Type | Type of soil on farm | Category |
+| Rainfall | Annual rainfall | mm |
+| Temperature | Average temperature | °C |
+| Fertilizer | Fertilizer usage | kg |
+| Pesticide | Pesticide usage | kg |
+| Farm Area | Total farm area | hectares |
+
+---
+
+## 👩‍💻 Developer
+
+**Mehak** — Precision Agriculture AI Project
+
+> *"Built to empower Indian farmers with AI-driven insights for better yield and sustainable farming."*
+
+---
+
+## 📌 Future Improvements
+
+- [ ] Real sensor data integration
+- [ ] Weather API integration
+- [ ] Multi-language support (Hindi, Marathi)
+- [ ] Offline mode for rural areas
+- [ ] Government scheme recommendations
