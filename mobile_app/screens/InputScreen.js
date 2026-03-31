@@ -52,6 +52,36 @@ export default function InputScreen({ navigation }) {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.heading}>🌱 Farm Details</Text>
+      {/* Weather Card */}
+<View style={styles.weatherBox}>
+  <Text style={styles.weatherTitle}>🌤️ Get Weather Data</Text>
+  <View style={styles.weatherRow}>
+    <TextInput
+      style={styles.weatherInput}
+      placeholder="Enter city name"
+      value={city}
+      onChangeText={setCity}
+    />
+    <TouchableOpacity
+      style={styles.weatherButton}
+      onPress={fetchWeather}
+      disabled={weatherLoading}
+    >
+      <Text style={styles.weatherButtonText}>
+        {weatherLoading ? '...' : 'Fetch'}
+      </Text>
+    </TouchableOpacity>
+  </View>
+  {weatherData && (
+    <View style={styles.weatherResult}>
+      <Text style={styles.weatherInfo}>🌡️ Temp: {weatherData.temperature}°C</Text>
+      <Text style={styles.weatherInfo}>💧 Humidity: {weatherData.humidity}%</Text>
+      <Text style={styles.weatherInfo}>🌬️ Wind: {weatherData.wind_speed} m/s</Text>
+      <Text style={styles.weatherInfo}>☁️ {weatherData.description}</Text>
+      <Text style={styles.weatherNote}>✅ Temperature & Rainfall auto-filled!</Text>
+    </View>
+  )}
+</View>
 
       <Text style={styles.label}>Crop Type</Text>
       <View style={styles.optionRow}>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AdminDashboard from './admin';
 import {
   View, Text, StyleSheet, ScrollView,
   TextInput, TouchableOpacity
@@ -66,7 +67,27 @@ const getSuggestions = (cropType, soilType, rainfall, temperature, fertilizer, a
 };
 
 export default function App() {
-  const [screen, setScreen] = useState('home');
+const [screen, setScreen] = useState('home');
+const [weatherData, setWeatherData] = useState<any>(null);
+const [city, setCity] = useState('Solapur');
+const [weatherLoading, setWeatherLoading] = useState(false);
+
+const fetchWeather = async () => {
+  setWeatherLoading(true);
+  try {
+    const response = await fetch(`http://127.0.0.1:5000/weather?city=${city}`);
+    const data = await response.json();
+    if (data.success) {
+      setWeatherData(data);
+      // Auto fill temperature and rainfall
+      setTemperature(String(Math.round(data.temperature)));
+      setRainfall(String(Math.round(data.rainfall * 365)));
+    }
+  } catch (error) {
+    alert('Cannot fetch weather. Check API key!');
+  }
+  setWeatherLoading(false);
+};
   const [cropType, setCropType] = useState('Wheat');
   const [soilType, setSoilType] = useState('Loamy');
   const [rainfall, setRainfall] = useState('');
@@ -75,7 +96,7 @@ export default function App() {
   const [pesticide, setPesticide] = useState('');
   const [area, setArea] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<any>(null);
 
   const handlePredict = async () => {
     if (!rainfall || !temperature || !fertilizer || !pesticide || !area) {
@@ -127,6 +148,12 @@ export default function App() {
         <TouchableOpacity style={styles.button} onPress={() => setScreen('input')}>
           <Text style={styles.buttonText}>Start Prediction →</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+  style={styles.buttonOutline}
+  onPress={() => setScreen('admin')}
+>
+  <Text style={styles.buttonOutlineText}>🏛️ Admin Dashboard</Text>
+</TouchableOpacity>
         <Text style={styles.footer}>Made by Mehak | Precision Agriculture AI</Text>
       </View>
     );
@@ -138,19 +165,35 @@ export default function App() {
       <ScrollView style={styles.scrollContainer}>
         <Text style={styles.heading}>🌱 Farm Details</Text>
 
-        <Text style={styles.label}>Crop Type</Text>
-        <View style={styles.optionRow}>
-          {CROPS.map(crop => (
+        {/* Weather Card */}
+        <View style={styles.weatherBox}>
+          <Text style={styles.weatherTitle}>🌤️ Get Weather Data</Text>
+          <View style={styles.weatherRow}>
+            <TextInput
+              style={styles.weatherInput}
+              placeholder="Enter city name"
+              value={city}
+              onChangeText={setCity}
+            />
             <TouchableOpacity
-              key={crop}
-              style={[styles.option, cropType === crop && styles.optionSelected]}
-              onPress={() => setCropType(crop)}
+              style={styles.weatherButton}
+              onPress={fetchWeather}
+              disabled={weatherLoading}
             >
-              <Text style={[styles.optionText, cropType === crop && styles.optionTextSelected]}>
-                {crop}
+              <Text style={styles.weatherButtonText}>
+                {weatherLoading ? '...' : 'Fetch'}
               </Text>
             </TouchableOpacity>
-          ))}
+          </View>
+          {weatherData && (
+            <View style={styles.weatherResult}>
+              <Text style={styles.weatherInfo}>🌡️ Temp: {weatherData.temperature}°C</Text>
+              <Text style={styles.weatherInfo}>💧 Humidity: {weatherData.humidity}%</Text>
+              <Text style={styles.weatherInfo}>🌬️ Wind: {weatherData.wind_speed} m/s</Text>
+              <Text style={styles.weatherInfo}>☁️ {weatherData.description}</Text>
+              <Text style={styles.weatherNote}>✅ Temperature & Rainfall auto-filled!</Text>
+            </View>
+          )}
         </View>
 
         <Text style={styles.label}>Soil Type</Text>
@@ -277,7 +320,12 @@ export default function App() {
       </ScrollView>
     );
   }
+  // ADMIN SCREEN
+  if (screen === 'admin') {
+    return <AdminDashboard />;
+  }
 }
+
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f0f7f4', alignItems: 'center', justifyContent: 'center', padding: 20 },
@@ -320,4 +368,16 @@ const styles = StyleSheet.create({
   suggestionIcon: { fontSize: 20, marginRight: 8 },
   suggestionCategory: { fontSize: 14, fontWeight: 'bold', color: '#2d6a4f', textTransform: 'uppercase' },
   suggestionTip: { fontSize: 14, color: '#444', lineHeight: 22 },
-});
+
+  // ADD THESE BELOW 👇
+  weatherBox: { backgroundColor: '#e8f4f8', borderRadius: 15, padding: 15, marginBottom: 15, marginTop: 10 },
+  weatherTitle: { fontSize: 16, fontWeight: 'bold', color: '#2d6a4f', marginBottom: 10 },
+  weatherRow: { flexDirection: 'row', gap: 10 },
+  weatherInput: { flex: 1, backgroundColor: '#fff', borderRadius: 10, padding: 10, borderWidth: 1, borderColor: '#ddd' },
+  weatherButton: { backgroundColor: '#2d6a4f', borderRadius: 10, padding: 10, justifyContent: 'center' },
+  weatherButtonText: { color: '#fff', fontWeight: 'bold' },
+  weatherResult: { marginTop: 10, backgroundColor: '#fff', borderRadius: 10, padding: 10 },
+  weatherInfo: { fontSize: 14, color: '#333', marginBottom: 5 },
+  weatherNote: { fontSize: 12, color: '#2d6a4f', fontWeight: 'bold', marginTop: 5 },
+
+});  // ← closing bracket stays here
