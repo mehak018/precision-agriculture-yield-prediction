@@ -1,8 +1,6 @@
 # 🌾 Precision Agriculture Yield Prediction Platform
 
-An AI-powered mobile application that predicts crop yield using Machine Learning, helping Indian farmers make data-driven decisions to improve agricultural productivity.
-
-![AgriYield App](screenshots/home_screen.png)
+An AI-powered platform that predicts crop yield using Machine Learning, real-time weather data, and smart recommendations — helping Indian farmers and agricultural officials make data-driven decisions.
 
 ---
 
@@ -16,12 +14,21 @@ An AI-powered mobile application that predicts crop yield using Machine Learning
 
 ## 🎯 Features
 
-- 🌱 **AI Yield Prediction** — Predicts crop yield with 92% accuracy
-- 📊 **Smart Suggestions** — Personalized farming advice based on inputs
-- 💧 **Irrigation Advice** — Water management recommendations
-- 🪨 **Soil Analysis** — Soil-specific improvement tips
-- 🧪 **Fertilizer Guide** — Optimal fertilizer usage recommendations
-- 🌱 **Crop Recommendations** — Best crop suggestions for conditions
+### 👨‍🌾 Farmer App
+- 🌾 **AI Yield Prediction** — 89% accurate Gradient Boosting model
+- 🌤️ **Live Weather Integration** — Auto-fills temperature & rainfall
+- 💡 **Smart Suggestions** — Personalized farming advice
+- 🪨 **Soil Analysis Tips** — Soil-specific recommendations
+- 🧪 **Fertilizer Guide** — Optimal usage recommendations
+- 🌱 **Crop Recommendations** — Best crop for your conditions
+
+### 🏛️ Admin Dashboard
+- 📍 **District Selection** — 8 Maharashtra districts
+- 🌤️ **District Weather** — Real-time weather per district
+- 📊 **District Yield Report** — Total yield estimation
+- 🏪 **Storage Planning** — Required storage capacity
+- 💰 **Market Value** — Estimated procurement value
+- 👨‍🌾 **Farmer Count** — Estimated farmers to notify
 
 ---
 
@@ -31,8 +38,9 @@ An AI-powered mobile application that predicts crop yield using Machine Learning
 |---|---|
 | Mobile App | React Native + Expo |
 | Backend API | Python Flask |
-| ML Model | Scikit-learn (Random Forest) |
-| Language | JavaScript + Python |
+| ML Model | Gradient Boosting (Scikit-learn) |
+| Weather API | OpenWeatherMap API |
+| Language | TypeScript + Python |
 
 ---
 
@@ -40,11 +48,11 @@ An AI-powered mobile application that predicts crop yield using Machine Learning
 
 | Metric | Value |
 |---|---|
-| Algorithm | Random Forest Regressor |
+| Algorithm | Gradient Boosting Regressor |
 | Training Samples | 800 |
 | Testing Samples | 200 |
-| R² Score | 0.92 (92% accurate) |
-| Mean Absolute Error | 0.52 tons |
+| R² Score | 0.89 (89% accurate) |
+| Features | Crop, Soil, Rainfall, Temperature, Fertilizer |
 
 ---
 
@@ -53,7 +61,7 @@ An AI-powered mobile application that predicts crop yield using Machine Learning
 precision-agriculture-yield-prediction/
 │
 ├── 📁 ml_model/
-│   ├── train_model.py      ← ML model training code
+│   ├── train_model.py      ← ML model training
 │   ├── model.pkl           ← Trained model
 │   └── columns.pkl         ← Feature columns
 │
@@ -62,7 +70,9 @@ precision-agriculture-yield-prediction/
 │   └── requirements.txt    ← Python dependencies
 │
 ├── 📁 mobile_app/
-│   └── src/app/index.tsx   ← Main app code
+│   └── src/app/
+│       ├── index.tsx       ← Farmer app
+│       └── admin.tsx       ← Admin dashboard
 │
 ├── 📁 screenshots/         ← App screenshots
 └── README.md
@@ -80,7 +90,7 @@ cd precision-agriculture-yield-prediction
 
 ### 2. Install Python Dependencies
 ```bash
-pip install pandas scikit-learn numpy flask flask-cors
+pip install pandas scikit-learn numpy flask flask-cors requests
 ```
 
 ### 3. Train the ML Model
@@ -102,41 +112,46 @@ npx expo start --web
 ---
 
 ## 🌾 How It Works
-
-1. **Farmer enters data** — Crop type, soil type, rainfall, temperature, fertilizer, area
-2. **Flask API receives data** — Sends to ML model
-3. **ML Model predicts** — Random Forest calculates expected yield
-4. **Smart suggestions generated** — App gives personalized farming advice
-5. **Results displayed** — Yield prediction + improvement tips shown
+```
+Farmer enters data
+       ↓
+Live weather auto-filled
+       ↓
+Flask API receives data
+       ↓
+Gradient Boosting predicts yield
+       ↓
+Smart suggestions generated
+       ↓
+Results + advice displayed
+```
 
 ---
 
-## 📊 Input Parameters
+## 📊 API Endpoints
 
-| Parameter | Description | Unit |
+| Endpoint | Method | Description |
 |---|---|---|
-| Crop Type | Type of crop being grown | Category |
-| Soil Type | Type of soil on farm | Category |
-| Rainfall | Annual rainfall | mm |
-| Temperature | Average temperature | °C |
-| Fertilizer | Fertilizer usage | kg |
-| Pesticide | Pesticide usage | kg |
-| Farm Area | Total farm area | hectares |
+| `/` | GET | API status |
+| `/predict` | POST | Yield prediction |
+| `/weather?city=Solapur` | GET | Live weather data |
+
+---
+
+## 🔮 Future Roadmap
+
+- [ ] CNN satellite imagery analysis
+- [ ] 30-60 day advance yield prediction
+- [ ] Government insurance portal integration
+- [ ] Multi-language support (Hindi, Marathi)
+- [ ] Offline mode for rural areas
+- [ ] SMS alerts for farmers
 
 ---
 
 ## 👩‍💻 Developer
 
 **Mehak** — Precision Agriculture AI Project
+GitHub: [@mehak018](https://github.com/mehak018)
 
 > *"Built to empower Indian farmers with AI-driven insights for better yield and sustainable farming."*
-
----
-
-## 📌 Future Improvements
-
-- [ ] Real sensor data integration
-- [ ] Weather API integration
-- [ ] Multi-language support (Hindi, Marathi)
-- [ ] Offline mode for rural areas
-- [ ] Government scheme recommendations
