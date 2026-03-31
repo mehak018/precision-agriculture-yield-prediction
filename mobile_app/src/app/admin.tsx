@@ -6,17 +6,17 @@ import {
 
 const DISTRICTS = [
   'Solapur', 'Pune', 'Nashik', 'Aurangabad',
-  'Kolhapur', 'Nagpur', 'Amravati', 'Satara'
+  'Kolhapur', 'Nagpur', 'Amravati', 'Satara','Chandrapur','Jalgaon','Latur','Beed',
 ];
 
-const CROPS = ['Wheat', 'Rice', 'Maize', 'Soybean', 'Cotton'];
+const CROPS = ['Wheat', 'Rice', 'Maize', 'Soybean', 'Cotton','Sugarcane','Vegetables','Fruits','Pulses','Oilseeds'];
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ onBack }: { onBack: () => void }) {
   const [selectedDistrict, setSelectedDistrict] = useState('Solapur');
   const [selectedCrop, setSelectedCrop]         = useState('Wheat');
   const [totalArea, setTotalArea]               = useState('1000');
   const [loading, setLoading]                   = useState(false);
-  const [prediction, setPrediction]             = useState(null);
+  const [prediction, setPrediction]             = useState<any>(null);
   const [weatherData, setWeatherData]           = useState<any>(null);
 
   // Fetch weather on load
@@ -61,12 +61,13 @@ export default function AdminDashboard() {
   return (
     <ScrollView style={styles.container}>
 
-      {/* Header */}
-      <View style={styles.header}>
+     <View style={styles.header}>
+        <TouchableOpacity onPress={onBack} style={styles.backButton}>
+          <Text style={styles.backText}>← Back</Text>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>🏛️ Admin Dashboard</Text>
         <Text style={styles.headerSub}>Agricultural Department — Maharashtra</Text>
       </View>
-
       {/* District Selection */}
       <View style={styles.card}>
         <Text style={styles.cardTitle}>📍 Select District</Text>
@@ -205,6 +206,8 @@ export default function AdminDashboard() {
 }
 
 const styles = StyleSheet.create({
+  backButton: { marginBottom: 10 },
+  backText: { color: '#52b788', fontSize: 16, fontWeight: 'bold' },
   container: { flex: 1, backgroundColor: '#f5f5f5' },
   header: { backgroundColor: '#1a3c34', padding: 25, paddingTop: 40 },
   headerTitle: { fontSize: 24, fontWeight: 'bold', color: '#fff' },

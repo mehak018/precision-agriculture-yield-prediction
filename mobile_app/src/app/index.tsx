@@ -320,9 +320,8 @@ const fetchWeather = async () => {
       </ScrollView>
     );
   }
-  // ADMIN SCREEN
   if (screen === 'admin') {
-    return <AdminDashboard />;
+    return <AdminDashboard onBack={() => setScreen('home')} />;
   }
 }
 
